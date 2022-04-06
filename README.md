@@ -1,4 +1,4 @@
-# Full Stack Open - Part 3 (Notes App - MongoDB)
+# Full Stack Open - Part 3 (Notes App - Backend)
 This project is currently in progress!
 
 ## About Full Stack Open
