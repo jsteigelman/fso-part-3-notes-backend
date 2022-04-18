@@ -8,7 +8,6 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static('build'))
 
-// test below
 const mongoose = require('mongoose')
 
 const url = process.env.MONGODB_URI
@@ -71,14 +70,13 @@ app.get('/api/notes/:id', (request, response, next) => {
 
 // update a note
 app.put('/api/notes/:id', (request, response, next) => {
-  const body = request.body
+  const { content, important } = request.body
 
-  const note = {
-    content: body.content,
-    important: body.important,
-  }
-
-  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+  Note.findByIdAndUpdate(
+    request.params.id, 
+    { content, important },
+    { new: true, runValidators: true, context: 'query' }
+  ) 
     .then(updatedNote => {
       response.json(updatedNote)
     })
@@ -94,7 +92,7 @@ const generateId = () => {
   }
 
 // add single note
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', (request, response, next) => {
   const body = request.body
 
   if (body.content === undefined) {
@@ -109,7 +107,8 @@ app.post('/api/notes', (request, response) => {
 
   note.save().then(savedNote => {
     response.json(savedNote)
-  })
+  }).catch(error => next(error))
+
 })
 
 // delete single note
@@ -120,24 +119,30 @@ app.delete('/api/notes/:id', (request, response, next) => {
     })
     .catch(error => next(error))
 })
-//     const id = Number(request.params.id)
-
-  
-const PORT = process.env.PORT
-app.listen(PORT, () => {
-console.log(`Server running on port ${PORT}`)
-})
 
 // handle errors
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
-
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
   next(error)
 }
 
-// this has to be the last loaded middleware.
+// this has to be the last loaded middleware
 app.use(errorHandler)
+
+// listen on port
+const PORT = process.env.PORT
+app.listen(PORT, () => {
+console.log(`Server running on port ${PORT}`)
+})

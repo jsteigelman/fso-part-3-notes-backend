@@ -13,8 +13,15 @@ mongoose.connect(url)
 
 // define a mongoose model
 const noteSchema = new mongoose.Schema({
-  content: String,
-  date: Date,
+  content: {
+    type: String,
+    minLength: 3,
+    required: true
+  },
+  date: { 
+    type: Date,
+    required: true
+  },
   important: Boolean,
 })
 
