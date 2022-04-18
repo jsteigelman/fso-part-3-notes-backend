@@ -1,0 +1,7 @@
+// add single note
+PUT http://localhost:3001/api/notes/625d76c067c471323943bc7c
+Content-Type: application/json
+
+{
+    "important": true
+}
