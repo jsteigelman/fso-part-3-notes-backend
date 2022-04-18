@@ -19,6 +19,7 @@ noteSchema.set('toJSON', {
   }
 })
 
+// compile schema into a Model
 const Note = mongoose.model('Note', noteSchema)
 
 Note.find({}).then(result => {
