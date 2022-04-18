@@ -1,12 +1,29 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const Note = require('./models/note')
 
 app.use(cors())
-
 app.use(express.json())
 app.use(express.static('build'))
 
+// test below
+const mongoose = require('mongoose')
+
+const url = process.env.MONGODB_URI
+
+console.log('connecting to', url)
+
+mongoose.connect(url)
+  .then(result => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.log('error connecting to MongoDB:', error.message)
+  })
+
+// test above
 let notes = [
     {
       id: 1,
@@ -34,7 +51,9 @@ app.get('/', (request, response) => {
 
 // get all notes
 app.get('/api/notes', (request, response) => {
-    return response.json(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 // get single note
@@ -85,8 +104,8 @@ app.delete('/api/notes/:id', (request, response) => {
   
     response.status(204).end()
   })
-
-const PORT = process.env.PORT || 3001
+  
+const PORT = process.env.PORT
 app.listen(PORT, () => {
 console.log(`Server running on port ${PORT}`)
 })
