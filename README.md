@@ -14,6 +14,12 @@ The course is worth 5-13 credits, and the content is the same as in the Full sta
 ## Website Preview
  -->
  
+## Functionality
+* User can add a note to the notepad
+* User can mark a note as important by adding a "star" to the note
+* User can mark a note as unimportant by removing a "star" from the note
+* User can filter notes to show only the important notes (notes marked with stars)
+ 
 ## Built With
 * [Node.js](https://nodejs.org/en/) - Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine
 * [express](https://expressjs.com/) - Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications
