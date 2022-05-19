@@ -1,6 +1,8 @@
 # Full Stack Open - Part 3 (Notes App Backend)
 This project is currently in progress!
 
+This project incorporates my frontend code from a seperate repository: [https://github.com/jsteigelman/fso-part-2-notes-frontend](https://github.com/jsteigelman/fso-part-2-notes-frontend)
+
 ## About Full Stack Open
 [Full Stack Open](https://fullstackopen.com/en/) serves as an introduction to modern web application development with JavaScript. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js. The course also contains a section on GraphQL, a modern alternative to REST APIs.
 
